@@ -12,23 +12,20 @@ const Home: NextPage = ({ stories }: any) => (
     <div className="flex justify-center">
       <div className="flex flex-col items-center">
         {stories.map((story: any) => (
-          <>
-            <br />
-            <div key={story.id}>
-              <a className="link link-primary" href={story.url}>{story.title}</a>
-              {' '}
-              (
-              {story.time}
-              ) -
-              {' '}
-              <a className="link link-primary" href={story.comments}>Comments Link</a>
-              {' '}
-              [
-              {story.score}
-              {' '}
-              score]
-            </div>
-          </>
+          <div className="m-10" key={story.id}>
+            <a className="link link-primary" href={story.url}>{story.title}</a>
+            {' '}
+            (
+            {story.time}
+            ) -
+            {' '}
+            <a className="link link-primary" href={story.comments}>Comments Link</a>
+            {' '}
+            [
+            {story.score}
+            {' '}
+            score]
+          </div>
         ))}
       </div>
     </div>
@@ -38,7 +35,7 @@ const Home: NextPage = ({ stories }: any) => (
 export async function getStaticProps() {
   const res = await fetch('https://hacker-news.firebaseio.com/v0/topstories.json');
   const storyIds = await res.json();
-  const randStoryIds = sample(storyIds, 3);
+  const randStoryIds = sample(storyIds, 10);
 
   const stories: any[] = [];
   // eslint-disable-next-line no-restricted-syntax
