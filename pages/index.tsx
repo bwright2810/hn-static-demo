@@ -42,19 +42,21 @@ export async function getStaticProps() {
   for await (const id of randStoryIds) {
     const storyRes = await fetch(`https://hacker-news.firebaseio.com/v0/item/${id}.json`);
     const storyObj = await storyRes.json();
-    const date = new Date(0); // The 0 there is the key, which sets the date to the epoch
-    date.setUTCSeconds(storyObj.time);
-    const time = date.toLocaleDateString('en-us', {
-      weekday: 'long', year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric',
-    });
-    stories.push({
-      id,
-      title: storyObj.title,
-      score: storyObj.score,
-      url: storyObj.url,
-      comments: `https://news.ycombinator.com/item?id=${id}`,
-      time,
-    });
+    if (storyObj.url && storyObj.title) {
+      const date = new Date(0); // The 0 there is the key, which sets the date to the epoch
+      date.setUTCSeconds(storyObj.time);
+      const time = date.toLocaleDateString('en-us', {
+        weekday: 'long', year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric',
+      });
+      stories.push({
+        id,
+        title: storyObj.title,
+        score: storyObj.score,
+        url: storyObj.url,
+        comments: `https://news.ycombinator.com/item?id=${id}`,
+        time,
+      });
+    }
   }
 
   return {
