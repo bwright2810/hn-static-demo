@@ -12,7 +12,7 @@ const Home: NextPage = ({ stories }: any) => (
     <div className="flex justify-center">
       <div className="flex flex-col items-center">
         {stories.map((story: any) => (
-          <div className="m-10" key={story.id}>
+          <div className="m-3" key={story.id}>
             <a className="link link-primary" href={story.url}>{story.title}</a>
             {' '}
             (
