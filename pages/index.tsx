@@ -51,12 +51,15 @@ const Home: NextPage = ({ stories }: any) => {
   );
 };
 
+const STORY_NUM = 15;
+
 export async function getStaticProps() {
   const res = await fetch('https://hacker-news.firebaseio.com/v0/topstories.json');
   const storyIds = await res.json();
-  const randStoryIds = sample(storyIds, 10);
+  const randStoryIds = sample(storyIds, 25);
 
   const stories: any[] = [];
+  let count = 0;
   // eslint-disable-next-line no-restricted-syntax
   for await (const id of randStoryIds) {
     const storyRes = await fetch(`https://hacker-news.firebaseio.com/v0/item/${id}.json`);
@@ -75,11 +78,16 @@ export async function getStaticProps() {
         comments: `https://news.ycombinator.com/item?id=${id}`,
         time,
       });
+      count += 1;
+
+      if (count === STORY_NUM) {
+        break;
+      }
     }
   }
 
   return {
-    props: { stories },
+    props: { stories: stories.slice(0, STORY_NUM) },
   };
 }
 
