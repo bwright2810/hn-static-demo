@@ -11,7 +11,7 @@ const Home: NextPage = ({ stories }: any) => {
     setRegenerating(true);
     await fetch(`${window.location.origin}/api/revalidate`)
       .then((res) => res.json())
-      .then((_data) => window.location.reload());
+      .then((_data) => setTimeout(() => window.location.reload(), 500));
   };
 
   return (
