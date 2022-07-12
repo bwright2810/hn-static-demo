@@ -26,8 +26,8 @@ const Home: NextPage = ({ stories }: any) => {
           <ClipLoader loading={regenerating} className="mt-6" />
           <button className="btn btn-primary m-5 mr-20 z-10" type="button" onClick={onRegenerate}>Regenerate Stories</button>
         </div>
-        <div className="flex justify-center -mt-20">
-          <div className="flex flex-col items-center ml-auto mr-auto">
+        <div className="flex justify-center">
+          <div className="flex flex-col items-center ml-3 mr-3">
             {stories.map((story: any) => (
               <div className="mt-3 mb-3" key={story.id}>
                 <a className="link link-primary" href={story.url}>{story.title}</a>
