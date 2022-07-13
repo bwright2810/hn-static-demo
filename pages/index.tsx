@@ -29,8 +29,8 @@ const Home: NextPage = ({ stories }: any) => {
         <div className="flex justify-center mb-5">
           <p className="text-center w-[800px]">
             This site is a demo for Next JS&apos;s on-demand static regeneration feature. It will randomly pull 200 of
-            the current top 500 HackerNews stories for display. Clicking the &apos;Regenerate Stories&apos; button will make a request to activate
-            Next&apos;s on-demand static regeneration for this site, picking a new random 200 HN stories.
+            the current top 500 HackerNews stories for display at build/deploy time. Clicking the &apos;Regenerate Stories&apos;
+            button will make a request to activate Next&apos;s on-demand static regeneration for this site, picking a new random 200 HN stories.
           </p>
         </div>
         <div className="flex justify-center">
