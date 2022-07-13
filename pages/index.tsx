@@ -26,11 +26,24 @@ const Home: NextPage = ({ stories }: any) => {
           <ClipLoader loading={regenerating} className="mt-6" />
           <button className="btn btn-primary m-5 mr-20 z-10" type="button" onClick={onRegenerate}>Regenerate Stories</button>
         </div>
+        <div className="flex justify-center mb-5">
+          <p className="text-center w-[800px]">
+            This site is a demo for Next JS's on-demand static regeneration feature. It will randomly pull 200 of
+            the current top 500 HackerNews stories for display. Clicking the 'Regenerate Stories' button will make a request to activate
+            Next's on-demand static regeneration for this site, picking a new random 200 HN stories.
+          </p>
+        </div>
         <div className="flex justify-center">
           <div className="flex flex-col items-start ml-3 mr-3 mb-5">
             {stories.map((story: any) => (
               <div className="mt-3 mb-3" key={story.id}>
-                <a className="link link-primary" href={story.url}>{story.title}</a>
+                {story.url
+                  ? (
+                    <a className="link link-primary" href={story.url}>
+                      {story.title}
+                    </a>
+                  )
+                  : <span>{story.title}</span>}
                 {' '}
                 (
                 {story.time}
@@ -46,42 +59,34 @@ const Home: NextPage = ({ stories }: any) => {
   );
 };
 
-const STORY_NUM = 30;
+const STORY_NUM = 100;
 
 export async function getStaticProps() {
   const res = await fetch('https://hacker-news.firebaseio.com/v0/topstories.json');
   const storyIds = await res.json();
-  const randStoryIds = sample(storyIds, 50);
+  const randStoryIds = sample(storyIds, STORY_NUM);
 
   const stories: any[] = [];
-  let count = 0;
   // eslint-disable-next-line no-restricted-syntax
   for await (const id of randStoryIds) {
     const storyRes = await fetch(`https://hacker-news.firebaseio.com/v0/item/${id}.json`);
     const storyObj = await storyRes.json();
-    if (storyObj.url && storyObj.title) {
-      const date = new Date(0); // The 0 there is the key, which sets the date to the epoch
-      date.setUTCSeconds(storyObj.time);
-      const time = date.toLocaleDateString('en-us', {
-        weekday: 'long', year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric',
-      });
-      stories.push({
-        id,
-        title: storyObj.title,
-        url: storyObj.url,
-        comments: `https://news.ycombinator.com/item?id=${id}`,
-        time,
-      });
-      count += 1;
-
-      if (count === STORY_NUM) {
-        break;
-      }
-    }
+    const date = new Date(0); // The 0 there is the key, which sets the date to the epoch
+    date.setUTCSeconds(storyObj.time);
+    const time = date.toLocaleDateString('en-us', {
+      weekday: 'long', year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric',
+    });
+    stories.push({
+      id,
+      title: storyObj.title,
+      url: storyObj?.url ?? null,
+      comments: `https://news.ycombinator.com/item?id=${id}`,
+      time,
+    });
   }
 
   return {
-    props: { stories: stories.slice(0, STORY_NUM) },
+    props: { stories },
   };
 }
 
