@@ -39,7 +39,7 @@ const Home: NextPage = ({ stories }: any) => {
               <div className="mt-3 mb-3" key={story.id}>
                 {story.url
                   ? (
-                    <a className="link link-primary" href={story.url}>
+                    <a className="link link-primary" href={story.url} target="_blank" rel="noopener noreferrer">
                       {story.title}
                     </a>
                   )
@@ -49,7 +49,7 @@ const Home: NextPage = ({ stories }: any) => {
                 {story.time}
                 ) -
                 {' '}
-                <a className="link link-primary" href={story.comments}>Comments Link</a>
+                <a className="link link-primary" href={story.comments} target="_blank" rel="noopener noreferrer">Comments Link</a>
               </div>
             ))}
           </div>
