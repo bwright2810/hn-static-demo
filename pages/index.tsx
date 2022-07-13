@@ -27,7 +27,7 @@ const Home: NextPage = ({ stories }: any) => {
           <button className="btn btn-primary m-5 mr-20 z-10" type="button" onClick={onRegenerate}>Regenerate Stories</button>
         </div>
         <div className="flex justify-center">
-          <div className="flex flex-col items-center ml-3 mr-3">
+          <div className="flex flex-col items-start ml-3 mr-3 mb-5">
             {stories.map((story: any) => (
               <div className="mt-3 mb-3" key={story.id}>
                 <a className="link link-primary" href={story.url}>{story.title}</a>
@@ -37,11 +37,6 @@ const Home: NextPage = ({ stories }: any) => {
                 ) -
                 {' '}
                 <a className="link link-primary" href={story.comments}>Comments Link</a>
-                {' '}
-                [
-                {story.score}
-                {' '}
-                score]
               </div>
             ))}
           </div>
@@ -51,12 +46,12 @@ const Home: NextPage = ({ stories }: any) => {
   );
 };
 
-const STORY_NUM = 15;
+const STORY_NUM = 30;
 
 export async function getStaticProps() {
   const res = await fetch('https://hacker-news.firebaseio.com/v0/topstories.json');
   const storyIds = await res.json();
-  const randStoryIds = sample(storyIds, 25);
+  const randStoryIds = sample(storyIds, 50);
 
   const stories: any[] = [];
   let count = 0;
@@ -73,7 +68,6 @@ export async function getStaticProps() {
       stories.push({
         id,
         title: storyObj.title,
-        score: storyObj.score,
         url: storyObj.url,
         comments: `https://news.ycombinator.com/item?id=${id}`,
         time,
